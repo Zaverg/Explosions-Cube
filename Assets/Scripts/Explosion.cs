@@ -17,12 +17,12 @@ public class Explosion : MonoBehaviour
         _inputHandler.Explodes -= Explode;
     }
 
-    private void Explode(Transform parent, List<Transform> children)
+    private void Explode(ExplosionCube parent, List<ExplosionCube> children)
     {
-        foreach (Transform obj in children)
+        foreach (ExplosionCube obj in children)
         {
-            if(obj.TryGetComponent<Rigidbody>(out Rigidbody rb))
-                rb.AddExplosionForce(_explosionForce, parent.position, _explosionRadios);
+            if(obj.TryGetComponent<Rigidbody>(out Rigidbody rigidbody))
+                rigidbody.AddExplosionForce(_explosionForce, parent.transform.position, _explosionRadios);
         }
     }
 }

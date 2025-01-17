@@ -18,8 +18,8 @@ public class ExplosionCube : MonoBehaviour
 
         transform.localScale /= _scaleDivision;
 
-        if (transform.GetComponent<MeshRenderer>() != null)
-            transform.GetComponent<MeshRenderer>().material.color = Random.ColorHSV();
+        if (transform.TryGetComponent<MeshRenderer>(out MeshRenderer meshRenderer))
+            meshRenderer.material.color = Random.ColorHSV();
     }
 
     public void SetChance(int chance)

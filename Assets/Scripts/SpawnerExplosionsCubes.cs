@@ -19,38 +19,34 @@ public class SpawnerExplosionsCubes : MonoBehaviour
         _inputHandler.Spawn += Spawn;
     }
 
-    private List<Transform> Spawn(Transform obj)
+    private List<ExplosionCube> Spawn(ExplosionCube explosionCube)
     {
-        List<Transform> cubs = new List<Transform>();
+        List<ExplosionCube> cubs = new List<ExplosionCube>();
 
-        if (CanDivide(obj))
+        if (CanDivide(explosionCube))
         {
-            int countCubs = UnityEngine.Random.RandomRange(_minNumbersSpawnCubs, _maxNumbersSpawnCubs + 1);
-            int chance = obj.GetComponent<ExplosionCube>().Chance / _chanceDiv;
+            int countCubs = Random.Range(_minNumbersSpawnCubs, _maxNumbersSpawnCubs + 1);
+            int chance = explosionCube.Chance / _chanceDiv;
 
             for (int i = 0; i < countCubs; i++)
             {
-                Transform cube = Instantiate(obj, obj.position, UnityEngine.Quaternion.identity);
+                ExplosionCube cube = Instantiate(explosionCube, explosionCube.transform.position, UnityEngine.Quaternion.identity);
                 cube.GetComponent<ExplosionCube>().SetChance(chance);
 
                 cubs.Add(cube);
             }
         }
 
-        Destroy(obj.gameObject);
+        Destroy(explosionCube.gameObject);
 
         return cubs;
     }
 
-    private bool CanDivide(Transform obj)
+    private bool CanDivide(ExplosionCube explosionCube)
     {
         int maxChance = 100;
         int minChance = 1;
 
-        int chance = obj.GetComponent<ExplosionCube>().Chance;
-
-        bool canDivide = UnityEngine.Random.RandomRange(minChance, maxChance) <= chance;
-
-        return canDivide;
+        return Random.Range(minChance, maxChance) <= explosionCube.Chance;
     }
 }

@@ -4,38 +4,25 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-    [SerializeField] private float _rayDistance;
-    public event Action<Transform, List<Transform>> Explodes;
-    public event Func<Transform, List<Transform>> Spawn;
+    private const int _buttonNumber = 0;
+
+    public event Action<ExplosionCube, List<ExplosionCube>> Explodes;
+    public event Func<ExplosionCube, List<ExplosionCube>> Spawn;
+    public event Func<ExplosionCube> Click;
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(_buttonNumber))
         {
-            Transform objectHit = ShootRay();
+            ExplosionCube objectHit = Click?.Invoke();
 
-            if (objectHit.GetComponent<ExplosionCube>() == null)
+            if (objectHit == null)
                 return;
 
-            List<Transform> children = Spawn?.Invoke(objectHit);
+            List<ExplosionCube> children = Spawn?.Invoke(objectHit);
             
             if(children != null)
                 Explodes?.Invoke(objectHit, children);
         }
-    }
-
-    private Transform ShootRay()
-    {
-        Ray ray;
-        RaycastHit _hit;
-        Camera mainCamera = Camera.main;
-
-        ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(ray.origin, ray.direction);
-
-        if (Physics.Raycast(ray, out _hit, _rayDistance))
-            return _hit.transform;
-
-        return null;
     }
 }
