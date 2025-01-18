@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Explosion : MonoBehaviour
+public class Exploder : MonoBehaviour
 {
     [SerializeField] private float _explosionForce;
     [SerializeField] private float _explosionRadios;
@@ -19,7 +19,7 @@ public class Explosion : MonoBehaviour
 
     private void Explode(ExplosionCube parent, List<ExplosionCube> children)
     {
-        foreach (ExplosionCube obj in children)
-            obj.Rigidbody.AddExplosionForce(_explosionForce, parent.transform.position, _explosionRadios);
+        foreach (ExplosionCube cubes in children)
+            cubes.Rigidbody.AddExplosionForce(_explosionForce, parent.transform.position, _explosionRadios);
     }
 }

@@ -1,6 +1,8 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(MeshRenderer))]
+
 public class ExplosionCube : MonoBehaviour
 {
     [SerializeField] private int _scaleDivision;
@@ -13,7 +15,7 @@ public class ExplosionCube : MonoBehaviour
 
     private void Awake()
     {
-        transform.TryGetComponent<MeshRenderer>(out _meshRenderer);
+        _meshRenderer = GetComponent<MeshRenderer>();
         Rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -27,8 +29,7 @@ public class ExplosionCube : MonoBehaviour
 
         transform.localScale /= _scaleDivision;
 
-        if (_meshRenderer != null)
-            _meshRenderer.material.color = Random.ColorHSV();
+        _meshRenderer.material.color = Random.ColorHSV();
     }
 
     public void SetChance(int chance)
