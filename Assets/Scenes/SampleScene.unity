@@ -1516,7 +1516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _explosionForce: 30
   _explosionRadios: 10
-  _rayShooter: {fileID: 1979396664}
+  _spawner: {fileID: 1979396663}
 --- !u!4 &2095603104
 Transform:
   m_ObjectHideFlags: 0

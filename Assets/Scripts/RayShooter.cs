@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System;
 using UnityEngine;
 
@@ -10,8 +9,7 @@ public class RayShooter : MonoBehaviour
 
     private Camera _mainCamera;
 
-    public event Action<ExplosionCube, List<ExplosionCube>> Explodes;
-    public event Func<ExplosionCube, List<ExplosionCube>> Spawn;
+    public event Action<ExplosionCube> Spawn;
 
     private void Awake()
     {
@@ -27,10 +25,7 @@ public class RayShooter : MonoBehaviour
             if (objectHit == null)
                 return;
 
-            List<ExplosionCube> children = Spawn?.Invoke(objectHit);
-
-            if (children != null)
-                Explodes?.Invoke(objectHit, children);
+            Spawn?.Invoke(objectHit);
         }
     }
 

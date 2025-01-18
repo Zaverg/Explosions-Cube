@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ public class SpawnerExplosionsCubes : MonoBehaviour
 
     [SerializeField] private RayShooter _rayShooter;
 
+    public event Action<ExplosionCube, List<ExplosionCube>> Explodes;
+
     private void OnEnable()
     {
         _rayShooter.Spawn += Spawn;
@@ -19,13 +22,13 @@ public class SpawnerExplosionsCubes : MonoBehaviour
         _rayShooter.Spawn += Spawn;
     }
 
-    private List<ExplosionCube> Spawn(ExplosionCube explosionCube)
+    private void Spawn(ExplosionCube explosionCube)
     {
         List<ExplosionCube> cubs = new List<ExplosionCube>();
 
         if (CanDivide(explosionCube))
         {
-            int countCubs = Random.Range(_minNumbersSpawnCubs, _maxNumbersSpawnCubs + 1);
+            int countCubs = UnityEngine.Random.Range(_minNumbersSpawnCubs, _maxNumbersSpawnCubs + 1);
             int chance = explosionCube.Chance / _chanceDiv;
 
             for (int i = 0; i < countCubs; i++)
@@ -37,9 +40,7 @@ public class SpawnerExplosionsCubes : MonoBehaviour
             }
         }
 
-        Destroy(explosionCube.gameObject);
-
-        return cubs;
+        Explodes?.Invoke(explosionCube, cubs);
     }
 
     private bool CanDivide(ExplosionCube explosionCube)
@@ -47,6 +48,6 @@ public class SpawnerExplosionsCubes : MonoBehaviour
         int maxChance = 100;
         int minChance = 1;
 
-        return Random.Range(minChance, maxChance) <= explosionCube.Chance;
+        return UnityEngine.Random.Range(minChance, maxChance) <= explosionCube.Chance;
     }
 }
