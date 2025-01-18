@@ -61,7 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Explosion.cs" />
-    <Compile Include="Assets\Scripts\InputHandler.cs" />
     <Compile Include="Assets\Scripts\ExplosionCube.cs" />
     <Compile Include="Assets\Scripts\SpawnerExplosionsCubes.cs" />
     <Compile Include="Assets\Scripts\RayShooter.cs" />

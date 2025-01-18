@@ -7,16 +7,16 @@ public class SpawnerExplosionsCubes : MonoBehaviour
     [SerializeField] private int _maxNumbersSpawnCubs;
     [SerializeField] private int _chanceDiv;
 
-    [SerializeField] private InputHandler _inputHandler;
+    [SerializeField] private RayShooter _rayShooter;
 
     private void OnEnable()
     {
-        _inputHandler.Spawn += Spawn;
+        _rayShooter.Spawn += Spawn;
     }
 
     private void OnDisable()
     {
-        _inputHandler.Spawn += Spawn;
+        _rayShooter.Spawn += Spawn;
     }
 
     private List<ExplosionCube> Spawn(ExplosionCube explosionCube)
@@ -31,7 +31,7 @@ public class SpawnerExplosionsCubes : MonoBehaviour
             for (int i = 0; i < countCubs; i++)
             {
                 ExplosionCube cube = Instantiate(explosionCube, explosionCube.transform.position, UnityEngine.Quaternion.identity);
-                cube.GetComponent<ExplosionCube>().SetChance(chance);
+                cube.SetChance(chance);
 
                 cubs.Add(cube);
             }

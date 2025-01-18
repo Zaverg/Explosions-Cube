@@ -1,25 +1,37 @@
+using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class RayShooter : MonoBehaviour
 {
+    private const int _buttonNumber = 0;
+
     [SerializeField] private float _rayDistance;
-    [SerializeField] private InputHandler _inputHandler;
 
     private Camera _mainCamera;
+
+    public event Action<ExplosionCube, List<ExplosionCube>> Explodes;
+    public event Func<ExplosionCube, List<ExplosionCube>> Spawn;
 
     private void Awake()
     {
         _mainCamera = Camera.main;
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        _inputHandler.Click += Shoot;
-    }
+        if (Input.GetMouseButtonDown(_buttonNumber))
+        {
+            ExplosionCube objectHit = Shoot();
+            
+            if (objectHit == null)
+                return;
 
-    private void OnDisable()
-    {
-        _inputHandler.Click -= Shoot;
+            List<ExplosionCube> children = Spawn?.Invoke(objectHit);
+
+            if (children != null)
+                Explodes?.Invoke(objectHit, children);
+        }
     }
 
     private ExplosionCube Shoot()
@@ -32,7 +44,6 @@ public class RayShooter : MonoBehaviour
             {
                 return explosionCube;
             }
-
         }
 
         return null;
